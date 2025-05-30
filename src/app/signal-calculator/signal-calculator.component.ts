@@ -8,7 +8,7 @@ import { Component, signal } from '@angular/core';
   imports: [NgFor],
 })
 export class SignalCalculatorComponent {
-  public actions: string[] = [];
+  public actions = signal<string[]>([]);
   // When returned the signal is a function that returns the current value
   // of the signal, and can be used in templates to display the value
 
@@ -35,11 +35,11 @@ export class SignalCalculatorComponent {
     // notice how we are invoking the signal function to get the current value even in the ts file,
     // not just in the template
     // this is because the signal is a function that returns the current value
-    this.actions.push('INCREMENT');
+    this.actions.update((oldActionsArray) => [...oldActionsArray, 'INCREMENT']);
   }
 
   public decrement() {
     this.counter.update(oldCounterValue => oldCounterValue - 1);
-    this.actions.push('DECREMENT');
+    this.actions.update((oldActionsArray) => [...oldActionsArray, 'DECREMENT']);
   }
 }
