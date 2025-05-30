@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-
-import { SignalCalculatorComponent } from './signal-calculator/signal-calculator.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
-    selector: 'app-root',
-    templateUrl: './app.component.html',
-    standalone: true,
-    imports: [SignalCalculatorComponent]
+  selector: 'app-root',
+  standalone: true,
+  imports: [RouterOutlet],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.scss'
 })
-export class AppComponent {}
+export class AppComponent {
+  title = 'signals-demo';
+}
