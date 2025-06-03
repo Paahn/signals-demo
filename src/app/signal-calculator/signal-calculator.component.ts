@@ -1,13 +1,14 @@
-import { NgFor } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { NgFor, NgIf } from '@angular/common';
+import { Component, signal, computed } from '@angular/core';
 
 @Component({
   selector: 'app-signal-calculator',
   templateUrl: './signal-calculator.component.html',
   standalone: true,
-  imports: [NgFor],
+  imports: [NgFor, NgIf],
 })
 export class SignalCalculatorComponent {
+  public error = false;
   public actions = signal<string[]>([]);
   // When returned the signal is a function that returns the current value
   // of the signal, and can be used in templates to display the value
@@ -19,8 +20,10 @@ export class SignalCalculatorComponent {
   // it is a reactive primitive that can be used to track changes
   // and trigger updates in the UI
   public counter = signal(0);
+  public doubleCounter = computed(() => this.counter() * 2);
 
   public increment() {
+    this.error = false;
     // update the signal value using the update method
     // this is a more efficient way to update the signal value
     // as it avoids creating a new signal object
@@ -39,12 +42,29 @@ export class SignalCalculatorComponent {
   }
 
   public decrement() {
+    this.error = false;
     this.counter.update(oldCounterValue => oldCounterValue - 1);
     this.actions.update((oldActionsArray) => [...oldActionsArray, 'DECREMENT']);
   }
 
   public doubleAction() {
+    const actionsArray = this.actions();
+    const lastNonDoubleAction = [...actionsArray].reverse().find(action => action !== 'DOUBLE');
 
+    switch (lastNonDoubleAction) {
+      case 'INCREMENT':
+        this.counter.update(oldCounterValue => oldCounterValue + 1);
+        break;
+      case 'DECREMENT':
+        this.counter.update(oldCounterValue => oldCounterValue - 1);
+        break;
+      case 'DOUBLE':
+        break;
+      default:
+        this.error = true;
+        break;
+    }
+    this.actions.update((oldActionsArray) => [...oldActionsArray, 'DOUBLE']);
   }
 }
 

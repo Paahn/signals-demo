@@ -2,6 +2,7 @@
 
 <div id="counter">
   <p id="counter-output">Counter: {{ counter() }}</p>
+  <p id="counter-output">Double Counter: {{ doubleCounter() }}</p>
   <div id="counter-btns">
     <button (click)="decrement()">Decrement</button>
     <button (click)="increment()">Increment</button>
@@ -15,3 +16,6 @@
 <ol id="log">
   <li *ngFor="let action of actions()">{{ action }}</li>
 </ol>
+<div id="error">
+  <h3 *ngIf="error">Double of nothing is still nothing!</h3>
+</div>
