@@ -42,5 +42,9 @@ export class SignalCalculatorComponent {
     this.counter.update(oldCounterValue => oldCounterValue - 1);
     this.actions.update((oldActionsArray) => [...oldActionsArray, 'DECREMENT']);
   }
+
+  public doubleAction() {
+
+  }
 }
 
